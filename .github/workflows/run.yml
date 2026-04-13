@@ -19,7 +19,39 @@ jobs:
           echo "CHINA_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/accelerated-domains.china.conf" >> $GITHUB_ENV
           echo "GOOGLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/google.china.conf" >> $GITHUB_ENV
           echo "APPLE_DOMAINS_URL=https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/apple.china.conf" >> $GITHUB_ENV
+          # According to EasyList variants. References:
+          # - https://easylist.to/pages/other-supplementary-filter-lists-and-easylist-variants.html
+          # - https://github.com/uazo/cromite/blob/96aca975244ca963423aefceb060ddd226c73aa8/tools/images/update-cromite-org/update.sh#L24
+          echo "ABP_FILTERS_ANTI_CV_REJECT_URL=https://easylist-downloads.adblockplus.org/abp-filters-anti-cv.txt" >> $GITHUB_ENV
+          echo "EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylist.txt" >> $GITHUB_ENV
+          echo "ABPINDO_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/abpindo+easylist.txt" >> $GITHUB_ENV
+          echo "ABPVN_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/abpvn+easylist.txt" >> $GITHUB_ENV
+          echo "BULGARIAN_LIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/bulgarian_list+easylist.txt" >> $GITHUB_ENV
+          echo "DANDELION_SPROUTS_NORDIC_FILTERS_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/dandelion_sprouts_nordic_filters+easylist.txt" >> $GITHUB_ENV
           echo "EASYLISTCHINA_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistchina+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTCZECHSLOVAK_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistczechslovak+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTDUTCH_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistdutch+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTGERMANY_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistgermany+easylist.txt" >> $GITHUB_ENV
+          echo "ISRAELLIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/israellist+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTITALY_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistitaly+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTLITHUANIA_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistlithuania+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTPOLISH_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistpolish+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTPORTUGUESE_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistportuguese+easylist.txt" >> $GITHUB_ENV
+          echo "EASYLISTSPANISH_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/easylistspanish+easylist.txt" >> $GITHUB_ENV
+          echo "INDIANLIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/indianlist+easylist.txt" >> $GITHUB_ENV
+          echo "KOREANLIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/koreanlist+easylist.txt" >> $GITHUB_ENV
+          echo "LATVIANLIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/latvianlist+easylist.txt" >> $GITHUB_ENV
+          echo "LISTE_AR_LISTE_FR_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/liste_ar+liste_fr+easylist.txt" >> $GITHUB_ENV
+          echo "LISTE_FR_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/liste_fr+easylist.txt" >> $GITHUB_ENV
+          echo "ROLIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/rolist+easylist.txt" >> $GITHUB_ENV
+          echo "RUADLIST_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/ruadlist+easylist.txt" >> $GITHUB_ENV
+          echo "I_DONT_CARE_ABOUT_COOKIES_REJECT_URL=https://easylist-downloads.adblockplus.org/i_dont_care_about_cookies.txt" >> $GITHUB_ENV
+          echo "FANBOY_NOTIFICATIONS_REJECT_URL=https://easylist-downloads.adblockplus.org/fanboy-notifications.txt" >> $GITHUB_ENV
+          echo "EASYPRIVACY_REJECT_URL=https://easylist-downloads.adblockplus.org/easyprivacy.txt" >> $GITHUB_ENV
+          echo "FANBOY_SOCIAL_REJECT_URL=https://easylist-downloads.adblockplus.org/fanboy-social.txt" >> $GITHUB_ENV
+          echo "JAPANESE_FILTERS_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/japanese-filters+easylist.txt" >> $GITHUB_ENV
+          echo "GLOBAL_FILTERS_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/global-filters+easylist.txt" >> $GITHUB_ENV
+          echo "TURKISH_FILTERS_EASYLIST_REJECT_URL=https://easylist-downloads.adblockplus.org/turkish-filters+easylist.txt" >> $GITHUB_ENV
           echo "PETERLOWE_REJECT_URL=https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&showintro=1&mimetype=plaintext" >> $GITHUB_ENV
           echo "ADGUARD_DNS_REJECT_URL=https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt" >> $GITHUB_ENV
           echo "DANPOLLOCK_REJECT_URL=https://someonewhocares.org/hosts/hosts" >> $GITHUB_ENV
@@ -84,7 +116,36 @@ jobs:
 
       - name: Get and add reject domains into temp-reject.txt file
         run: |
+          curl -sSL $ABP_FILTERS_ANTI_CV_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $ABPINDO_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $ABPVN_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $BULGARIAN_LIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $DANDELION_SPROUTS_NORDIC_FILTERS_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
           curl -sSL $EASYLISTCHINA_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTCZECHSLOVAK_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTDUTCH_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTGERMANY_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $ISRAELLIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTITALY_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTLITHUANIA_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTPOLISH_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTPORTUGUESE_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYLISTSPANISH_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $INDIANLIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $KOREANLIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $LATVIANLIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $LISTE_AR_LISTE_FR_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $LISTE_FR_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $ROLIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $RUADLIST_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $I_DONT_CARE_ABOUT_COOKIES_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $FANBOY_NOTIFICATIONS_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $EASYPRIVACY_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $FANBOY_SOCIAL_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $JAPANESE_FILTERS_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $GLOBAL_FILTERS_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
+          curl -sSL $TURKISH_FILTERS_EASYLIST_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' > temp-reject.txt
           curl -sSL $ADGUARD_DNS_REJECT_URL | perl -ne '/^\|\|([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})\^$/ && print "$1\n"' | perl -ne 'print if not /^[0-9]{1,3}(\.[0-9]{1,3}){3}$/' >> temp-reject.txt
           curl -sSL $PETERLOWE_REJECT_URL | perl -ne '/^127\.0\.0\.1\s([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})$/ && print "$1\n"' >> temp-reject.txt
           curl -sSL $DANPOLLOCK_REJECT_URL | perl -ne '/^127\.0\.0\.1\s([-_0-9a-zA-Z]+(\.[-_0-9a-zA-Z]+){1,64})/ && print "$1\n"' | sed '1d' >> temp-reject.txt
